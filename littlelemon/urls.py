@@ -16,9 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path , include
+from django.http import JsonResponse
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenBlacklistView
 
+
+def root_view(request):
+    return JsonResponse({
+        'message': 'Little Lemon API en funcionamiento',
+        'endpoints': {
+            'admin': '/admin/',
+            'api': '/api/',
+            'token': '/api/token/',
+        },
+    })
+
 urlpatterns = [
+    path('', root_view, name='root'),
     path('admin/', admin.site.urls),
     path('api/', include('littlelemonAPI.urls')),
     # path('auth/', include('djoser.urls')),  # REMOVIDO: Ya tienes implementación propia

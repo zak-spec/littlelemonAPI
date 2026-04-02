@@ -1,10 +1,10 @@
-# Ejemplos de Uso - API Little Lemon
+﻿# Ejemplos de Uso - API Little Lemon
 
 ## 🔐 Autenticación
 
 ### Obtener Token
 ```bash
-curl -X POST http://localhost:8000/api/token-auth/ \
+curl -X POST http://localhost:8000/api/token/ \
   -H "Content-Type: application/json" \
   -d '{
     "username": "tu_usuario",
@@ -15,14 +15,15 @@ curl -X POST http://localhost:8000/api/token-auth/ \
 **Respuesta:**
 ```json
 {
-  "token": "9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b"
+  "refresh": "<refresh_token>",
+  "access": "<access_token>"
 }
 ```
 
 ### Usar Token en Requests
 ```bash
 # Incluir en headers
-Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b
+Authorization: Bearer <access_token>
 ```
 
 ## 📂 Categorías
@@ -31,7 +32,7 @@ Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b
 ```bash
 curl -X POST http://localhost:8000/api/categories/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
     "title": "Bebidas"
   }'
@@ -40,14 +41,14 @@ curl -X POST http://localhost:8000/api/categories/ \
 ### Obtener Categoría
 ```bash
 curl -X GET http://localhost:8000/api/categories/1/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Actualizar Categoría
 ```bash
 curl -X PATCH http://localhost:8000/api/categories/1/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
     "title": "Bebidas Refrescantes"
   }'
@@ -56,7 +57,7 @@ curl -X PATCH http://localhost:8000/api/categories/1/ \
 ### Eliminar Categoría
 ```bash
 curl -X DELETE http://localhost:8000/api/categories/1/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ## 🍕 Menú
@@ -64,14 +65,14 @@ curl -X DELETE http://localhost:8000/api/categories/1/ \
 ### Listar Items del Menú
 ```bash
 curl -X GET http://localhost:8000/api/menu-items/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Crear Item del Menú (Solo Gerentes/Admin)
 ```bash
 curl -X POST http://localhost:8000/api/menu-items/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
     "title": "Pizza Margherita",
     "price": "15.99",
@@ -82,7 +83,7 @@ curl -X POST http://localhost:8000/api/menu-items/ \
 ### Obtener Item Específico
 ```bash
 curl -X GET http://localhost:8000/api/menu-items/pizza-margherita/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ## 👥 Usuarios
@@ -90,7 +91,7 @@ curl -X GET http://localhost:8000/api/menu-items/pizza-margherita/ \
 ### Listar Usuarios (Solo Admin/Gerentes)
 ```bash
 curl -X GET "http://localhost:8000/api/users/?page=1&per_page=10&search=john" \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 **Respuesta:**
@@ -116,14 +117,14 @@ curl -X GET "http://localhost:8000/api/users/?page=1&per_page=10&search=john" \
 ### Obtener Usuario Específico
 ```bash
 curl -X GET http://localhost:8000/api/users/1/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Actualizar Usuario
 ```bash
 curl -X PATCH http://localhost:8000/api/users/1/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
     "first_name": "Johnny",
     "email": "johnny@example.com"
@@ -133,7 +134,7 @@ curl -X PATCH http://localhost:8000/api/users/1/ \
 ### Desactivar Usuario (Solo Admin)
 ```bash
 curl -X DELETE http://localhost:8000/api/users/1/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ## 👥 Grupos
@@ -141,7 +142,7 @@ curl -X DELETE http://localhost:8000/api/users/1/ \
 ### Listar Grupos
 ```bash
 curl -X GET http://localhost:8000/api/groups/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 **Respuesta:**
@@ -164,7 +165,7 @@ curl -X GET http://localhost:8000/api/groups/ \
 ```bash
 curl -X POST http://localhost:8000/api/groups/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
     "name": "VIP Customers"
   }'
@@ -173,14 +174,14 @@ curl -X POST http://localhost:8000/api/groups/ \
 ### Obtener Detalles del Grupo
 ```bash
 curl -X GET http://localhost:8000/api/groups/1/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Añadir Usuarios al Grupo
 ```bash
 curl -X POST http://localhost:8000/api/groups/1/users/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
     "user_ids": [5, 6, 7]
   }'
@@ -190,7 +191,7 @@ curl -X POST http://localhost:8000/api/groups/1/users/ \
 ```bash
 curl -X DELETE http://localhost:8000/api/groups/1/users/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
     "user_ids": [5, 6]
   }'
@@ -201,14 +202,14 @@ curl -X DELETE http://localhost:8000/api/groups/1/users/ \
 ### Ver Carrito
 ```bash
 curl -X GET http://localhost:8000/api/cart/menu-items/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Añadir al Carrito
 ```bash
 curl -X POST http://localhost:8000/api/cart/menu-items/add/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
     "menuitem": 1,
     "quantity": 2
@@ -218,14 +219,14 @@ curl -X POST http://localhost:8000/api/cart/menu-items/add/ \
 ### Obtener Item Específico del Carrito
 ```bash
 curl -X GET http://localhost:8000/api/cart/menu-items/1/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Actualizar Cantidad en Carrito
 ```bash
 curl -X PUT http://localhost:8000/api/cart/menu-items/1/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
     "quantity": 3
   }'
@@ -234,13 +235,13 @@ curl -X PUT http://localhost:8000/api/cart/menu-items/1/ \
 ### Eliminar Item del Carrito
 ```bash
 curl -X DELETE http://localhost:8000/api/cart/menu-items/1/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Limpiar Carrito Completo
 ```bash
 curl -X DELETE http://localhost:8000/api/cart/menu-items/clear/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ## 📦 Pedidos
@@ -248,14 +249,14 @@ curl -X DELETE http://localhost:8000/api/cart/menu-items/clear/ \
 ### Ver Mis Pedidos
 ```bash
 curl -X GET http://localhost:8000/api/orders/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Crear Pedido desde Carrito
 ```bash
 curl -X POST http://localhost:8000/api/orders/create/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
     "note": "Sin cebolla, por favor"
   }'
@@ -264,20 +265,20 @@ curl -X POST http://localhost:8000/api/orders/create/ \
 ### Obtener Detalles de Pedido
 ```bash
 curl -X GET http://localhost:8000/api/orders/1/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Ver Todos los Pedidos (Solo Gerentes/Admin)
 ```bash
 curl -X GET http://localhost:8000/api/orders/all/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Actualizar Pedido (Solo Gerentes/Admin)
 ```bash
 curl -X PUT http://localhost:8000/api/orders/1/update/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
     "status": "in_preparation",
     "delivery_crew": 3
@@ -287,14 +288,14 @@ curl -X PUT http://localhost:8000/api/orders/1/update/ \
 ### Ver Pedidos Asignados (Delivery Crew)
 ```bash
 curl -X GET http://localhost:8000/api/orders/delivery/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Actualizar Estado de Entrega
 ```bash
 curl -X PATCH http://localhost:8000/api/orders/1/status/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
     "status": "delivered"
   }'
@@ -303,7 +304,7 @@ curl -X PATCH http://localhost:8000/api/orders/1/status/ \
 ### Eliminar Pedido (Solo Admin)
 ```bash
 curl -X DELETE http://localhost:8000/api/orders/1/delete/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ## 🔄 Gestión de Grupos Específicos
@@ -313,13 +314,13 @@ curl -X DELETE http://localhost:8000/api/orders/1/delete/ \
 #### Obtener Lista de Gerentes
 ```bash
 curl -X GET http://localhost:8000/api/groups/manager/users/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 #### Eliminar Gerente
 ```bash
 curl -X DELETE http://localhost:8000/api/groups/manager/users/5/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Repartidores
@@ -327,13 +328,13 @@ curl -X DELETE http://localhost:8000/api/groups/manager/users/5/ \
 #### Obtener Lista de Repartidores
 ```bash
 curl -X GET http://localhost:8000/api/groups/delivery-crew/users/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 #### Eliminar Repartidor
 ```bash
 curl -X DELETE http://localhost:8000/api/groups/delivery-crew/users/8/ \
-  -H "Authorization: Token YOUR_TOKEN"
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ## 🚨 Manejo de Errores
@@ -396,3 +397,5 @@ TOKEN: {{auth_token}}
 
 **Nota**: Reemplaza `YOUR_TOKEN` con el token real obtenido del endpoint de autenticación.
 **Puerto**: Ajusta el puerto según tu configuración local (8000 es el default de Django).
+
+

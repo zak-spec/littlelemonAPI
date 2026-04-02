@@ -1,4 +1,4 @@
-# 🧪 CHECKLIST DE TESTING - API LITTLE LEMON
+﻿# 🧪 CHECKLIST DE TESTING - API LITTLE LEMON
 
 ## 📋 Testing Checklist Completo
 
@@ -8,15 +8,15 @@
 - [ ] **Base de datos migrada**: `python manage.py migrate`
 - [ ] **Superusuario creado**: `python manage.py createsuperuser`
 - [ ] **Grupos creados**: Manager, Delivery Crew
-- [ ] **Token de prueba obtenido**: `/api/token-auth/`
+- [ ] **Token de prueba obtenido**: `/api/token/`
 
 ---
 
 ## 🔐 Testing de Autenticación
 
 ### Obtener Token
-- [ ] **POST** `/api/token-auth/` con credenciales válidas
-- [ ] **POST** `/api/token-auth/` con credenciales inválidas
+- [ ] **POST** `/api/token/` con credenciales válidas
+- [ ] **POST** `/api/token/` con credenciales inválidas
 - [ ] Verificar formato de respuesta del token
 
 ### Usar Token
@@ -292,15 +292,15 @@ python manage.py runserver
 ### Testing con HTTPie
 ```bash
 # Obtener token
-http POST localhost:8000/api/token-auth/ username=admin password=admin123
+http POST localhost:8000/api/token/ username=admin password=admin123
 
 # Test categoría
-http GET localhost:8000/api/categories/ "Authorization:Token YOUR_TOKEN"
-http POST localhost:8000/api/categories/ title="Test Category" "Authorization:Token YOUR_TOKEN"
+http GET localhost:8000/api/categories/ "Authorization:Bearer YOUR_TOKEN"
+http POST localhost:8000/api/categories/ title="Test Category" "Authorization:Bearer YOUR_TOKEN"
 
 # Test usuarios
-http GET localhost:8000/api/users/ "Authorization:Token YOUR_TOKEN"
-http GET localhost:8000/api/users/1/ "Authorization:Token YOUR_TOKEN"
+http GET localhost:8000/api/users/ "Authorization:Bearer YOUR_TOKEN"
+http GET localhost:8000/api/users/1/ "Authorization:Bearer YOUR_TOKEN"
 ```
 
 ---
@@ -309,3 +309,5 @@ http GET localhost:8000/api/users/1/ "Authorization:Token YOUR_TOKEN"
 
 **Tiempo estimado**: 2-3 horas para testing completo
 **Herramientas recomendadas**: Postman, HTTPie, Django Test Client
+
+
