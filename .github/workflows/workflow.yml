@@ -1,10 +1,26 @@
-name : prueba 
+name: prueba
+
 on:
-    push:
-        branches: [ "main" ]
-    pull_request:
-        branches: [ "main" ]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        container: python:3.9-slim
+  build:
+    runs-on: ubuntu-latest
+    container: python:3.12-slim
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install django djangorestframework djangorestframework-simplejwt django-environ bleach pillow
+
+      - name: Check Django
+        run: python manage.py check
+
+      - name: Tests
+        run: python manage.py test littlelemonAPI
